@@ -1,0 +1,2 @@
+recursive-include ispman/soap/public *
+recursive-include ispman/soap/templates *
