@@ -14,5 +14,6 @@ def make_map():
 
     # CUSTOM ROUTES HERE
 
+    map.connect(':(controller).wsdl')
     map.connect(':controller/:action/:id')
     return map

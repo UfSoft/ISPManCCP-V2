@@ -15,6 +15,7 @@ from pylons.wsgiapp import PylonsApp
 
 import ispman.soap.helpers
 from ispman.soap.routing import make_map
+from ispman.soap.session import SoapSession
 
 log = logging.getLogger(__name__)
 
@@ -131,14 +132,42 @@ class Globals(object):
             print e
 
 
-        self.ldap = dict(
+
+        self.ldap_config = dict(
             host    = ispman_perl.getConf('ldapHost'),
             version = ispman_perl.getConf('ldapVersion'),
             base_dn = ispman_perl.getConf('ldapBaseDN')
         )
 
+
+        perl.require('Net::LDAP')
+        log.debug('After require LDAP')
+        eval_string = 'Net::LDAP->new( "%s",version => %s ) or die "$@";'
+        log.debug('Eval String: %s',eval_string % (self.ldap_config['host'],
+                                                   self.ldap_config['version']))
+        ldap = perl.eval(eval_string % (self.ldap_config['host'],
+                                        self.ldap_config['version']))
+        self.ldap = ldap
+
+        log.debug('After LDAP setup')
+
+        self.ldap_config['allowed_user_attributes'] = (
+            'dn', 'dialupAccess', 'radiusProfileDn', 'uid', 'uidNumber',
+            'gidNumber', 'homeDirectory', 'loginShell', 'ispmanStatus',
+            'ispmanCreateTimestamp', 'ispmanUserId', 'ispmanDomain',
+            'DestinationAddress', 'DestinationPort', 'mailQuota', 'mailHost',
+            'fileHost', 'cn', 'mailRoutingAddress', 'FTPStatus',
+            'FTPQuotaMBytes', 'mailAlias', 'sn', 'mailLocalAddress',
+            'userPassword', 'mailForwardingAddress', 'givenName')
+
+        self.ldap_config['updatable_attributes'] = (
+            'ispmanStatus', 'mailQuota', 'mailAlias', 'sn', 'userPassword',
+            'givenName', 'updateUser', 'uid', 'mailForwardingAddress',
+            'ispmanDomain', 'FTPQuotaMBytes', 'FTPStatus', 'mailHost',
+            'fileHost', 'dialupAccess', 'radiusProfileDN')
+
         self.ispman = ispman_perl
 
         log.debug('ISPMan(perl) Is Now Setup')
-
+        self.session = SoapSession()
 
