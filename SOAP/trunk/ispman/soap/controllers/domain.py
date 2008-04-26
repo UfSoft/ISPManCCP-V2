@@ -28,4 +28,10 @@ class DomainService(SimpleWSGISoapApp):
     def hasAddress(self, authtoken, domain, address):
         return pc.address_exists_on_domain(domain, address)
 
+    @soapmethod(String, String, String, _returns=Account)
+    @tokencheck # called after in order to have globals registered on thread
+    def userInfo(self, authtoken, domain, ispmanUserId):
+        return pc.get_user_info(ispmanUserId, domain)
+        return pc.address_exists_on_domain(domain, address)
+
 DomainController = DomainService() # Make it a normal Pylons controller

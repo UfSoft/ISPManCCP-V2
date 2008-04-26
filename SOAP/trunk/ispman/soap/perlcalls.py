@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # vim: sw=4 ts=4 fenc=utf-8
 # =============================================================================
-# $Id: perlcalls.py 168 2008-04-25 15:36:34Z s0undt3ch $
+# $Id: perlcalls.py 169 2008-04-26 12:04:02Z s0undt3ch $
 # =============================================================================
 #             $URL: http://ispmanccp.ufsoft.org/svn/branches/0.2.x/SOAP/trunk/ispman/soap/perlcalls.py $
-# $LastChangedDate: 2008-04-25 16:36:34 +0100 (Fri, 25 Apr 2008) $
-#             $Rev: 168 $
+# $LastChangedDate: 2008-04-26 13:04:02 +0100 (Sat, 26 Apr 2008) $
+#             $Rev: 169 $
 #   $LastChangedBy: s0undt3ch $
 # =============================================================================
 # Copyright (C) 2008 UfSoft.org - Pedro Algarvio <ufs@ufsoft.org>
@@ -27,16 +27,8 @@ def get_domain_users(domain, attrs_list):
     if not userlist:
         return []
     result = []
-    for uid, dict_ in userlist.iteritems():
-        account = Account()
-        account.uid = uid
-        for k, v, in dict_.iteritems():
-            try:
-                if hasattr(account, k):
-                    setattr(account, k, v)
-            except Exception, err:
-                print k, v, err
-        result.append(account)
+    for user in userlist.itervalues():
+        result.append(to_account(user))
     return result
 
 def address_exists_on_domain(domain, address):
@@ -55,9 +47,26 @@ def address_exists_on_domain(domain, address):
                 return True
     return False
 
+def get_user_info(ispmanUserId, domain):
+    user_info = to_unicode(
+        g.ispman.getUserInfo("%s@%s" % (ispmanUserId, domain), domain)
+    )
+    return to_account(user_info)
+
 # ------------------------------------------------------------------------------
 # Local helpers
 # ------------------------------------------------------------------------------
+
+def to_account(obj):
+    account = Account()
+    for k, v, in obj.iteritems():
+        try:
+            if hasattr(account, k):
+                setattr(account, k, v)
+        except Exception, err:
+            print k, v, err
+    return account
+
 def to_unicode(in_obj):
     """ Function to convert whatever we can to unicode."""
     if not in_obj: # or in_obj == '':

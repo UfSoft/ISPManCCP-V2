@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # vim: sw=4 ts=4 fenc=utf-8
 # =============================================================================
-# $Id: serializers.py 168 2008-04-25 15:36:34Z s0undt3ch $
+# $Id: serializers.py 169 2008-04-26 12:04:02Z s0undt3ch $
 # =============================================================================
 #             $URL: http://ispmanccp.ufsoft.org/svn/branches/0.2.x/SOAP/trunk/ispman/soap/serializers.py $
-# $LastChangedDate: 2008-04-25 16:36:34 +0100 (Fri, 25 Apr 2008) $
-#             $Rev: 168 $
+# $LastChangedDate: 2008-04-26 13:04:02 +0100 (Sat, 26 Apr 2008) $
+#             $Rev: 169 $
 #   $LastChangedBy: s0undt3ch $
 # =============================================================================
 # Copyright (C) 2008 UfSoft.org - Pedro Algarvio <ufs@ufsoft.org>
@@ -25,24 +25,24 @@ class Account(ClassSerializer):
         dn = String
         dialupAccess = String
         radiusProfileDn = String
-        uid = String
-        uidNumber = String
-        gidNumber = String
+        uid = Array(String)
+        uidNumber = Integer
+        gidNumber = Integer
         homeDirectory = String
         loginShell = String
         ispmanStatus = String
-        ispmanCreateTimestamp = String
+        ispmanCreateTimestamp = Integer
         ispmanUserId = String
         ispmanDomain = String
         DestinationAddress = String
-        DestinationPort = String
-        mailQuota = String
+        DestinationPort = Integer
+        mailQuota = Integer
         mailHost = String
         fileHost = String
         cn = String
         mailRoutingAddress = String
         FTPStatus = String
-        FTPQuotaMBytes = String
+        FTPQuotaMBytes = Integer
         mailAlias = String
         sn = String
         mailLocalAddress = String
