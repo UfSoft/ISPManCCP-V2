@@ -15,7 +15,6 @@ from pylons.wsgiapp import PylonsApp
 
 import ispman.soap.helpers
 from ispman.soap.routing import make_map
-from ispman.soap.session import SoapSession
 
 log = logging.getLogger(__name__)
 
@@ -183,5 +182,4 @@ class Globals(object):
         self.ispman = ispman_perl
 
         log.debug('ISPMan(perl) Is Now Setup')
-        self.session = SoapSession()
 

@@ -3,7 +3,7 @@
 Provides the BaseController class for subclassing, and other objects
 utilized by Controllers.
 """
-from pylons import c, cache, config, g, request, response #, session
+from pylons import c, cache, config, g, request, response, session
 from pylons.controllers import WSGIController
 from pylons.controllers.util import abort, etag_cache, redirect_to
 #from pylons.decorators import jsonify, validate,
