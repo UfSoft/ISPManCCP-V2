@@ -19,6 +19,14 @@ from ispman.soap.session import SoapSession
 
 log = logging.getLogger(__name__)
 
+class Sniff(object):
+    def __init__(self, app):
+        self.application = app
+    def __call__(self, environ, start_response):
+        print 444, environ
+        return self.application(environ, start_response)
+#        return []
+
 def load_environment(global_conf, app_conf):
     """Configure the Pylons environment via the ``pylons.config``
     object
@@ -70,6 +78,8 @@ def make_app(global_conf, full_stack=True, **app_conf):
     app = PylonsApp()
 
     # CUSTOM MIDDLEWARE HERE (filtered by error handling middlewares)
+
+    app = Sniff(app)
 
     if asbool(full_stack):
         # Handle Python exceptions
@@ -145,9 +155,13 @@ class Globals(object):
         eval_string = 'Net::LDAP->new( "%s",version => %s ) or die "$@";'
         log.debug('Eval String: %s',eval_string % (self.ldap_config['host'],
                                                    self.ldap_config['version']))
-        ldap = perl.eval(eval_string % (self.ldap_config['host'],
-                                        self.ldap_config['version']))
-        self.ldap = ldap
+        try:
+            ldap = perl.eval(eval_string % (self.ldap_config['host'],
+                                            self.ldap_config['version']))
+            self.ldap = ldap
+        except perl.PerlError, error:
+            print "Failed to connect to LDAP Server: %s" % error
+            sys.exit(1)
 
         log.debug('After LDAP setup')
 
