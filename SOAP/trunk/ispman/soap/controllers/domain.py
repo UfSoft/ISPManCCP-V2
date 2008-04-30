@@ -29,4 +29,16 @@ class DomainService(SoapController):
     def userInfo(self, domain, ispmanUserId):
         return pc.get_user_info(ispmanUserId, domain)
 
+    @soapmethod(String, _returns=Integer)
+    def userCount(self, domain):
+        return pc.get_domain_user_count(domain)
+
+    @soapmethod(String, _returns=Integer)
+    def vhostCount(self, domain):
+        return pc.get_domain_vhost_count(domain)
+
+    @soapmethod(String, String, _returns=Boolean)
+    def changePassword(self, domain, password):
+        return pc.change_domain_password(domain, password)
+
 DomainController = DomainService() # Make it a normal Pylons controller

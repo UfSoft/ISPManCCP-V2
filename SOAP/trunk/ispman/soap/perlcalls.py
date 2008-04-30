@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # vim: sw=4 ts=4 fenc=utf-8
 # =============================================================================
-# $Id: perlcalls.py 170 2008-04-29 18:24:18Z s0undt3ch $
+# $Id: perlcalls.py 173 2008-04-30 20:13:55Z s0undt3ch $
 # =============================================================================
 #             $URL: http://ispmanccp.ufsoft.org/svn/branches/0.2.x/SOAP/trunk/ispman/soap/perlcalls.py $
-# $LastChangedDate: 2008-04-29 19:24:18 +0100 (Tue, 29 Apr 2008) $
-#             $Rev: 170 $
+# $LastChangedDate: 2008-04-30 21:13:55 +0100 (Wed, 30 Apr 2008) $
+#             $Rev: 173 $
 #   $LastChangedBy: s0undt3ch $
 # =============================================================================
 # Copyright (C) 2008 UfSoft.org - Pedro Algarvio <ufs@ufsoft.org>
@@ -53,6 +53,18 @@ def get_user_info(ispmanUserId, domain):
         g.ispman.getUserInfo("%s@%s" % (ispmanUserId, domain), domain)
     )
     return to_account(user_info)
+
+def get_domain_vhost_count(domain):
+    return g.ispman.getVhostCount(domain)
+
+def get_domain_user_count(domain):
+    return g.ispman.getUserCount(domain)
+
+def change_domain_password(domain, password):
+    retcode = g.ispman.changeDomainPassword(domain, passwd)
+    if retcode != 1:
+        return False
+    return True
 
 # ------------------------------------------------------------------------------
 # Local helpers

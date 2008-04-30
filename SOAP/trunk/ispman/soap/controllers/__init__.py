@@ -53,7 +53,7 @@ class SoapController(SimpleWSGISoapApp):
         SimpleWSGISoapApp.onMethodExec(self,environ,body,py_params,soap_params)
 
 # 5 mins cache
-@beaker_cache(expire=300, type="memory")
+@beaker_cache(expire=int(config.get('soap.session.timeout', 15)), type="memory")
 def _authenticate(username=None, password=None, login_type=None):
     if not (username or password or login_type):
         abort(401) # Unauthorized
