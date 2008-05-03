@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # vim: sw=4 ts=4 fenc=utf-8
 # =============================================================================
-# $Id: perlcalls.py 173 2008-04-30 20:13:55Z s0undt3ch $
+# $Id: perlcalls.py 177 2008-05-03 14:32:06Z s0undt3ch $
 # =============================================================================
 #             $URL: http://ispmanccp.ufsoft.org/svn/branches/0.2.x/WebServices/trunk/ispman/services/perlcalls.py $
-# $LastChangedDate: 2008-04-30 21:13:55 +0100 (Wed, 30 Apr 2008) $
-#             $Rev: 173 $
+# $LastChangedDate: 2008-05-03 15:32:06 +0100 (Sat, 03 May 2008) $
+#             $Rev: 177 $
 #   $LastChangedBy: s0undt3ch $
 # =============================================================================
 # Copyright (C) 2008 UfSoft.org - Pedro Algarvio <ufs@ufsoft.org>
@@ -15,7 +15,7 @@
 
 import logging
 from pylons import g
-from ispman.soap.serializers import Account
+from ispman.services.serializers import Account
 from soaplib.serializers.primitive import Fault
 
 log = logging.getLogger(__name__)

@@ -1,7 +1,7 @@
 import logging
 
-from ispman.soap.controllers import *
-from ispman.soap.serializers import Account
+from ispman.services.controllers import *
+from ispman.services.serializers import Account
 from soaplib.service import soapmethod
 from soaplib.serializers.primitive import String, Integer, Array, Boolean, Fault
 

@@ -1,7 +1,7 @@
 Metadata-Version: 1.0
-Name: ISPManSOAP
-Version: 0.1dev
-Summary: SOAP backend to ISPMan
+Name: ISPManWebServices
+Version: 0.1dev-r176
+Summary: WebServices backend to ISPMan
 Home-page: UNKNOWN
 Author: Pedro Algarvio
 Author-email: ufs@ufsoft.org

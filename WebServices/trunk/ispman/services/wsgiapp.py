@@ -13,8 +13,8 @@ from pylons.middleware import error_mapper, ErrorDocuments, ErrorHandler, \
     StaticJavascripts
 from pylons.wsgiapp import PylonsApp
 
-import ispman.soap.helpers
-from ispman.soap.routing import make_map
+import ispman.services.helpers
+from ispman.services.routing import make_map
 
 log = logging.getLogger(__name__)
 
@@ -38,12 +38,12 @@ def load_environment(global_conf, app_conf):
                  templates=[os.path.join(root, 'templates')])
 
     # Initialize config with the basic options
-    config.init_app(global_conf, app_conf, package='ispman.soap',
+    config.init_app(global_conf, app_conf, package='ispman.services',
                     template_engine='mako', paths=paths)
 
     config['routes.map'] = make_map()
     config['pylons.g'] = Globals()
-    config['pylons.h'] = ispman.soap.helpers
+    config['pylons.h'] = ispman.services.helpers
 
     # Customize templating options via this variable
     tmpl_options = config['buffet.template_options']

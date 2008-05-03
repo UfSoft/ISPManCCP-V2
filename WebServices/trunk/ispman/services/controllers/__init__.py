@@ -11,9 +11,9 @@ from pylons.decorators.cache import beaker_cache
 from pylons.i18n import _, ungettext, N_
 from pylons.templating import render
 
-import ispman.soap.helpers as h
-import ispman.soap.perlcalls as pc
-#from ispman.soap.decorators import *
+import ispman.services.helpers as h
+import ispman.services.perlcalls as pc
+#from ispman.services.decorators import *
 
 from soaplib.wsgi_soap import SimpleWSGISoapApp, request as soap_request
 

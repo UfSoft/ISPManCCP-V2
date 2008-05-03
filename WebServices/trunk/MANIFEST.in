@@ -1,2 +1,2 @@
-recursive-include ispman/soap/public *
-recursive-include ispman/soap/templates *
+recursive-include ispman/services/public *
+recursive-include ispman/services/templates *

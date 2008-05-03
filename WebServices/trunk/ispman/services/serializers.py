@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # vim: sw=4 ts=4 fenc=utf-8
 # =============================================================================
-# $Id: serializers.py 169 2008-04-26 12:04:02Z s0undt3ch $
+# $Id: serializers.py 177 2008-05-03 14:32:06Z s0undt3ch $
 # =============================================================================
 #             $URL: http://ispmanccp.ufsoft.org/svn/branches/0.2.x/WebServices/trunk/ispman/services/serializers.py $
-# $LastChangedDate: 2008-04-26 13:04:02 +0100 (Sat, 26 Apr 2008) $
-#             $Rev: 169 $
+# $LastChangedDate: 2008-05-03 15:32:06 +0100 (Sat, 03 May 2008) $
+#             $Rev: 177 $
 #   $LastChangedBy: s0undt3ch $
 # =============================================================================
 # Copyright (C) 2008 UfSoft.org - Pedro Algarvio <ufs@ufsoft.org>
@@ -15,7 +15,7 @@
 
 #from pylons import g
 from pylons import config
-from ispman.soap.wsgiapp import Globals
+#from ispman.services.wsgiapp import Globals
 from soaplib.serializers.primitive import *
 from soaplib.serializers.clazz import *
 
