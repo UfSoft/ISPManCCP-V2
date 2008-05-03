@@ -3,7 +3,7 @@
 # =============================================================================
 # $Id: perlcalls.py 173 2008-04-30 20:13:55Z s0undt3ch $
 # =============================================================================
-#             $URL: http://ispmanccp.ufsoft.org/svn/branches/0.2.x/SOAP/trunk/ispman/soap/perlcalls.py $
+#             $URL: http://ispmanccp.ufsoft.org/svn/branches/0.2.x/WebServices/trunk/ispman/soap/perlcalls.py $
 # $LastChangedDate: 2008-04-30 21:13:55 +0100 (Wed, 30 Apr 2008) $
 #             $Rev: 173 $
 #   $LastChangedBy: s0undt3ch $
