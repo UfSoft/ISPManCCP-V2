@@ -2,9 +2,9 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='ISPManSOAP',
+    name='ISPManWebServices',
     version='0.1',
-    description='SOAP backend to ISPMan',
+    description='WebServices backend to ISPMan',
     author='Pedro Algarvio',
     author_email='ufs@ufsoft.org',
     # url='',
@@ -12,10 +12,10 @@ setup(
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
     test_suite='nose.collector',
-    package_data={'ispman.soap': ['i18n/*/LC_MESSAGES/*.mo']},
+    package_data={'ispman.services': ['i18n/*/LC_MESSAGES/*.mo']},
     entry_points="""
     [paste.app_factory]
-    main = ispman.soap.wsgiapp:make_app
+    main = ispman.services.wsgiapp:make_app
 
     [paste.app_install]
     main = pylons.util:PylonsInstaller
