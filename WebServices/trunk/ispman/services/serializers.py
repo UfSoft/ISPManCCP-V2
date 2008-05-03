@@ -3,7 +3,7 @@
 # =============================================================================
 # $Id: serializers.py 169 2008-04-26 12:04:02Z s0undt3ch $
 # =============================================================================
-#             $URL: http://ispmanccp.ufsoft.org/svn/branches/0.2.x/WebServices/trunk/ispman/soap/serializers.py $
+#             $URL: http://ispmanccp.ufsoft.org/svn/branches/0.2.x/WebServices/trunk/ispman/services/serializers.py $
 # $LastChangedDate: 2008-04-26 13:04:02 +0100 (Sat, 26 Apr 2008) $
 #             $Rev: 169 $
 #   $LastChangedBy: s0undt3ch $
