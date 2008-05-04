@@ -7,7 +7,7 @@ from soaplib.serializers.primitive import String, Integer, Array, Boolean, Fault
 
 log = logging.getLogger(__name__)
 
-class DomainService(SoapController):
+class SoapService(SoapController):
 
 #    def index(self):
 #        # Return a rendered template
@@ -45,4 +45,4 @@ class DomainService(SoapController):
     def changePassword(self, domain, password):
         return pc.change_domain_password(domain, password)
 
-DomainController = DomainService() # Make it a normal Pylons controller
+SoapController = SoapService() # Make it a normal Pylons controller

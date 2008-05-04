@@ -13,7 +13,7 @@ def make_map():
                  always_scan=config['debug'])
 
     # CUSTOM ROUTES HERE
-
+    map.connect('SOAP', 'SOAP/:action/:id', controller='soap')
     map.connect(':(controller).wsdl')
     map.connect(':controller/:action/:id')
     return map
