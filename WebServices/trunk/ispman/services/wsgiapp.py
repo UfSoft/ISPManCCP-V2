@@ -22,9 +22,9 @@ class Sniff(object):
     def __init__(self, app):
         self.application = app
     def __call__(self, environ, start_response):
-        print 444, environ
+        from pprint import pprint
+        log.debug(pprint(environ))
         return self.application(environ, start_response)
-#        return []
 
 def load_environment(global_conf, app_conf):
     """Configure the Pylons environment via the ``pylons.config``
