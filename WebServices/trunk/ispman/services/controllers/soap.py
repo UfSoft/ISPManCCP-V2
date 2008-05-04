@@ -7,7 +7,7 @@ from soaplib.serializers.primitive import String, Integer, Array, Boolean, Fault
 
 log = logging.getLogger(__name__)
 
-class SoapService(SoapController):
+class SOAPService(SoapController):
 
 #    def index(self):
 #        # Return a rendered template
@@ -18,31 +18,33 @@ class SoapService(SoapController):
 
     @soapmethod(String, Array(String), _returns=Array(Account))
     def getUsers(self, domain=None, attrs_list=[]):
-        result = pc.getUsers(domain, attrs_list)
+        if 'ispmanUserId' not in attrs_list:
+            attrs_list.append('ispmanUserId')
+        result = be.getUsers(domain, attrs_list)
         if result:
             results = []
-            for user in result:
-                results.append()
-        return result
+            for user in result.itervalues():
+                results.append(be.helpers.to_account(user))
+        return results
 
     @soapmethod(String, String, _returns=Boolean)
     def hasAddress(self, domain, address):
-        return pc.address_exists_on_domain(domain, address)
+        return be.address_exists_on_domain(domain, address)
 
     @soapmethod(String, String, _returns=Account)
     def userInfo(self, domain, ispmanUserId):
-        return pc.get_user_info(ispmanUserId, domain)
+        return be.get_user_info(ispmanUserId, domain)
 
     @soapmethod(String, _returns=Integer)
     def userCount(self, domain):
-        return pc.get_domain_user_count(domain)
+        return be.get_domain_user_count(domain)
 
     @soapmethod(String, _returns=Integer)
     def vhostCount(self, domain):
-        return pc.get_domain_vhost_count(domain)
+        return be.get_domain_vhost_count(domain)
 
     @soapmethod(String, String, _returns=Boolean)
     def changePassword(self, domain, password):
-        return pc.change_domain_password(domain, password)
+        return be.change_domain_password(domain, password)
 
-SoapController = SoapService() # Make it a normal Pylons controller
+SoapController = SOAPService() # Make it a normal Pylons controller

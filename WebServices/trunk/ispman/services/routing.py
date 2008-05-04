@@ -14,6 +14,7 @@ def make_map():
 
     # CUSTOM ROUTES HERE
     map.connect('SOAP', 'SOAP/:action/:id', controller='soap')
+    map.connect('RPC2', 'RPC2/:action/:id', controller='xmlrpc')
     map.connect(':(controller).wsdl')
     map.connect(':controller/:action/:id')
     return map

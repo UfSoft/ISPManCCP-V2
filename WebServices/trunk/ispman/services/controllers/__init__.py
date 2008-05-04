@@ -3,6 +3,9 @@
 Provides the BaseController class for subclassing, and other objects
 utilized by Controllers.
 """
+
+import base64
+
 from pylons import c, cache, config, g, request, response, session
 from pylons.controllers import WSGIController
 from pylons.controllers.util import abort, etag_cache, redirect_to
@@ -12,11 +15,10 @@ from pylons.i18n import _, ungettext, N_
 from pylons.templating import render
 
 import ispman.services.helpers as h
-#import ispman.services.perlcalls as pc
-import ispman.services.backend as pc
-#from ispman.services.decorators import *
+import ispman.services.backend as be
 
 from soaplib.wsgi_soap import SimpleWSGISoapApp, request as soap_request
+from pylons.controllers import XMLRPCController as PylonsXMLRPCController
 
 import logging as _logging
 
@@ -45,57 +47,77 @@ class SoapController(SimpleWSGISoapApp):
         @param the tuple of python params being passed to the method
         @param the soap elements for each params
         '''
-
         authheader = soap_request.header.find('Authentication')
         username = authheader.get('username')
         password = authheader.get('password')
-        role = authheader.get('role')
-        _authenticate(username=username, password=password, login_type=role)
+        _authenticate(username=username, password=password)
         SimpleWSGISoapApp.onMethodExec(self,environ,body,py_params,soap_params)
+
+class XMLRPCController(PylonsXMLRPCController):
+    def __call__(self, environ, start_response):
+        authorization = environ.get('HTTP_AUTHORIZATION', None)
+        if not authorization:
+            abort(401)
+        uname, passwd = base64.decodestring(authorization.split()[1]).split(':')
+        _authenticate(uname, passwd)
+        return PylonsXMLRPCController.__call__(self, environ, start_response)
 
 # 5 mins cache
 @beaker_cache(expire=int(config.get('soap.session.timeout', 15)), type="memory")
-def _authenticate(username=None, password=None, login_type=None):
-    if not (username or password or login_type):
+def _authenticate(username=None, password=None):
+    if not (username or password):
         abort(401) # Unauthorized
 
-    if not isinstance(login_type, int):
-        login_type = int(login_type)
+    valid_login = False
 
-    if login_type in (ROLE_CLIENT, ROLE_RESELLER):
-        if login_type == ROLE_CLIENT:
-            base   = "ou=ispman,%s" % g.ldap_config['base_dn']
-            scope  = "sub"
-            filter = "&(objectClass=ispmanClient)(uid=%s)" % username
-        elif login_type == ROLE_RESELLER:
-            base   = "ou=ispman,%s" % g.ldap_config['base_dn']
-            scope  = "one"
-            filter = "&(objectClass=ispmanReseller)(uid=%s)" % username
-        # search for binddn
+    # Try Admins first
+    binddn = "uid=%s,ou=admins,%s" % (username, g.ldap_config['base_dn'])
+    result =  g.ldap.bind(binddn, password=password)
+    if result.code():
+        # Now Resselers
+        base   = "ou=ispman,%s" % g.ldap_config['base_dn']
+        scope  = "one"
+        filter = "&(objectClass=ispmanReseller)(uid=%s)" % username
         msg =  g.ldap.search(base   = base,
                              scope  = scope,
                              filter = filter,
                              attrs  = [])
         entry = msg.entry(0)
         if not entry:
-            _log.debug('Entry not found for base: %s, scope: %s, filter: %s',
-                       base, scope, filter)
-            abort(403, "Failed to login")
-        binddn = entry.dn()
-    elif login_type == ROLE_ADMIN:
-        # admin !?
-        binddn = "uid=%s,ou=admins,%s" % (username, g.ldap_config['base_dn'])
+            # Now clients
+            base   = "ou=ispman,%s" % g.ldap_config['base_dn']
+            scope  = "sub"
+            filter = "&(objectClass=ispmanClient)(uid=%s)" % username
+            entry = msg.entry(0)
+            if not entry:
+                abort(403, "Failed to login")
+            else:
+                binddn = entry.dn()
+                result =  g.ldap.bind(binddn, password=password)
+                if result.code():
+                    abort(403, "Failed to login")
+                else:
+                    valid_login = True
+                    session['login_type'] = ROLE_CLIENT
+        else:
+            binddn = entry.dn()
+            result =  g.ldap.bind(binddn, password=password)
+            if result.code():
+                abort(403, "Failed to login")
+            else:
+                valid_login = True
+                session['login_type'] = ROLE_RESELLER
     else:
-        abort(405) # Method Not Allowed
+        valid_login = True
+        session['login_type'] = ROLE_ADMIN
 
-    # Authenticate
-    result =  g.ldap.bind(binddn, password=password)
-    if result.code():
+    if not valid_login:
         _log.debug('Failed to login')
         print result.error()
         g.ldap.unbind()
         abort(401) # Re-Authenticate!?
 
+    session.save()
     # We reached this far? Sucess!!! We're authenticated...
     _log.debug('login OK for user %s', username)
 
