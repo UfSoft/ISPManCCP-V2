@@ -18,7 +18,11 @@ class DomainService(SoapController):
 
     @soapmethod(String, Array(String), _returns=Array(Account))
     def getUsers(self, domain=None, attrs_list=[]):
-        result = pc.get_domain_users(domain, attrs_list)
+        result = pc.getUsers(domain, attrs_list)
+        if result:
+            results = []
+            for user in result:
+                results.append()
         return result
 
     @soapmethod(String, String, _returns=Boolean)
