@@ -89,7 +89,7 @@ def searchUsers():
     raise WontImplementError
 
 def userExists(uid):
-    raise NotImplemented
+    return g.ispman.userExists(uid)
 
 def suspend_user(domain, uid):
     raise NotImplemented

@@ -51,7 +51,8 @@ class SoapController(SimpleWSGISoapApp):
         authheader = soap_request.header.find('Authentication')
         username = authheader.get('username')
         password = authheader.get('password')
-        _authenticate(username=username, password=password)
+        role = authheader.get('role')
+        _authenticate(username=username, password=password, login_type=role)
         SimpleWSGISoapApp.onMethodExec(self,environ,body,py_params,soap_params)
 
 class XMLRPCController(PylonsXMLRPCController):

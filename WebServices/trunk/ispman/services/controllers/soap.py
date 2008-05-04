@@ -27,9 +27,9 @@ class SOAPService(SoapController):
                 results.append(be.helpers.to_account(user))
         return results
 
-    @soapmethod(String, String, _returns=Boolean)
-    def hasAddress(self, domain, address):
-        return be.address_exists_on_domain(domain, address)
+    @soapmethod(String, _returns=Boolean)
+    def userExists(self, uid):
+        return be.userExists(uid)
 
     @soapmethod(String, String, _returns=Account)
     def userInfo(self, domain, ispmanUserId):
