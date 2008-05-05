@@ -41,6 +41,8 @@ def to_account(obj):
         raise Fault(faultcode="Server", faultstring="Account Not Found",
                      detail="The account was not found for this domain",
                      name="ExceptionFault")
+    else:
+        obj = to_unicode(obj)
     account = Account()
     for k, v, in obj.iteritems():
         try:

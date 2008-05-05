@@ -20,7 +20,12 @@ def getDNForMailAddress(mail):
     raise NotImplemented
 
 def getUserInfo(uid):
-    raise NotImplemented
+    """Retrieve the user information
+
+        **uid**: The user id in the form of `user@domain.tld` or
+        `user_domain_tld`
+    """
+    return to_unicode(g.ispman.getUserInfo(uid))
 
 def editUser(params):
     raise NotImplemented

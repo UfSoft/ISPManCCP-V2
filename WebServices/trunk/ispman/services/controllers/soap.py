@@ -31,9 +31,9 @@ class SOAPService(SoapController):
     def userExists(self, uid):
         return be.userExists(uid)
 
-    @soapmethod(String, String, _returns=Account)
-    def userInfo(self, domain, ispmanUserId):
-        return be.get_user_info(ispmanUserId, domain)
+    @soapmethod(String, _returns=Account)
+    def getUserInfo(self, uid):
+        return be.helpers.to_account(be.getUserInfo(uid))
 
     @soapmethod(String, _returns=Integer)
     def userCount(self, domain):

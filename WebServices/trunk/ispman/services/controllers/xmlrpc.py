@@ -18,7 +18,20 @@ class XmlrpcController(XMLRPCController):
             attrs_list.append('ispmanUserId')
         result = be.getUsers(domain, attrs_list)
         return result.values()
-#    getUsers.signature =
+    getUsers.signature = [['array', 'string'],
+                          ['array', 'string', 'array']]
+    getUsers.__doc__ = be.getUsers.__doc__
 
+
+    def userExists(self, uid):
+        return be.userExists(uid)
+    userExists.signature = [['boolean', 'string']]
+    userExists.__doc__ = be.userExists.__doc__
+
+
+    def getUserInfo(self, uid):
+        return be.getUserInfo(uid)
+    getUserInfo.signature = [['struct', 'string']]
+    getUserInfo.__doc__ = be.getUserInfo.__doc__
 
 #XmlrpcController = XMLRPCService()

@@ -17,9 +17,6 @@ import sys, os
 # is relative to the documentation root, use os.path.abspath to make it
 # absolute, like shown here.
 #sys.path.append(os.path.abspath('some/directory'))
-#p = os.path.dirname(os.path.abspath(os.path.dirname(os.path.dirname(__file__))))
-#print 1, p
-#sys.path.insert(0, os.path.dirname(os.path.abspath(os.path.dirname(os.path.dirname(__file__)))))
 sys.path.append(os.path.dirname(os.path.abspath('../../')))
 
 # General configuration
@@ -33,7 +30,7 @@ extensions = ['sphinx.ext.autodoc']
 templates_path = ['.templates']
 
 # The suffix of source filenames.
-source_suffix = '.rst'
+source_suffix = '.txt'
 
 # The master toctree document.
 master_doc = 'index'
