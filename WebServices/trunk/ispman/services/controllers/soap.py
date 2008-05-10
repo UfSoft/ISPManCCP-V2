@@ -36,15 +36,15 @@ class SOAPService(SoapController):
         return be.helpers.to_account(be.getUserInfo(uid))
 
     @soapmethod(String, _returns=Integer)
-    def userCount(self, domain):
-        return be.get_domain_user_count(domain)
+    def getUserCount(self, domain):
+        return be.getUserCount(domain)
 
     @soapmethod(String, _returns=Integer)
     def vhostCount(self, domain):
         return be.get_domain_vhost_count(domain)
 
     @soapmethod(String, String, _returns=Boolean)
-    def changePassword(self, domain, password):
-        return be.change_domain_password(domain, password)
+    def changeDomainPassword(self, domain, password):
+        return be.changeDomainPassword(domain, password)
 
 SoapController = SOAPService() # Make it a normal Pylons controller

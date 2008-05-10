@@ -25,7 +25,7 @@ import logging as _logging
 
 _log = _logging.getLogger(__name__)
 
-ROLES = (ROLE_CLIENT, ROLE_RESELLER, ROLE_ADMIN) = range(3)
+ROLES = (ROLE_DOMAIN, ROLE_CLIENT, ROLE_RESELLER, ROLE_ADMIN) = range(4)
 
 class BaseController(WSGIController):
 
@@ -65,7 +65,6 @@ class XMLRPCController(PylonsXMLRPCController):
         login_type = query.get('login_type', 0)
         if isinstance(login_type, list):
             login_type = login_type[0]
-
         _authenticate(uname, passwd, login_type)
         return PylonsXMLRPCController.__call__(self, environ, start_response)
 
@@ -78,7 +77,9 @@ def _authenticate(username=None, password=None, login_type=None):
     if not isinstance(login_type, int):
         login_type = int(login_type)
 
-    if login_type in (ROLE_CLIENT, ROLE_RESELLER):
+    if login_type == ROLE_DOMAIN:
+        binddn = 'ispmanDomain=%s,%s' % (username, g.ldap_config['base_dn'])
+    elif login_type in (ROLE_CLIENT, ROLE_RESELLER):
         if login_type == ROLE_CLIENT:
             base   = "ou=ispman,%s" % g.ldap_config['base_dn']
             scope  = "sub"
@@ -115,6 +116,7 @@ def _authenticate(username=None, password=None, login_type=None):
     session['login_type'] = login_type
     session['username'] = username
     session['password'] = password
+    session['binddn'] = binddn
     session.save()
 
     # We reached this far? Sucess!!! We're authenticated...

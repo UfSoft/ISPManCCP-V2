@@ -34,4 +34,13 @@ class XmlrpcController(XMLRPCController):
     getUserInfo.signature = [['struct', 'string']]
     getUserInfo.__doc__ = be.getUserInfo.__doc__
 
-#XmlrpcController = XMLRPCService()
+
+    def getUserCount(self, domain):
+        return be.getUserCount(domain)
+    getUserCount.signature = [['integer', 'string']]
+    getUserCount.__doc__ = be.getUserCount.__doc__
+
+    def changeDomainPassword(self, domain, password):
+        return be.changeDomainPassword(domain, password)
+    changeDomainPassword.signature = [['boolean', 'string', 'string']]
+    changeDomainPassword.__doc__ = be.changeDomainPassword.__doc__

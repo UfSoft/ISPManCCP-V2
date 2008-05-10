@@ -73,7 +73,11 @@ def getUsersCount():
     raise NotImplemented
 
 def getUserCount(domain):
-    raise NotImplemented
+    """Get the total number of users of a domain.
+
+        **domain**: Fully Qualified Domain Name
+    """
+    return g.ispman.getUserCount(domain)
 
 def getUsersBranchDN(domain):
     raise NotImplemented

@@ -303,8 +303,13 @@ def unlockDomain(domain):
 def unsuspend_domain(domain):
     raise NotImplemented
 
-def changeDomainPassword(domain, passwd):
-    raise NotImplemented
+def changeDomainPassword(domain, password):
+    """Change the domain password.
+
+        **domain**: FQDN
+        **password**: The new password for the passed `domain`
+    """
+    return g.ispman.changeDomainPassword(domain, password)
 
 def getDefaultFileHost(domain):
     raise NotImplemented
