@@ -40,8 +40,8 @@ class SOAPService(SoapController):
         return be.getUserCount(domain)
 
     @soapmethod(String, _returns=Integer)
-    def vhostCount(self, domain):
-        return be.get_domain_vhost_count(domain)
+    def getVhostsCount(self, domain):
+        return be.getVhostsCount(domain)
 
     @soapmethod(String, String, _returns=Boolean)
     def changeDomainPassword(self, domain, password):

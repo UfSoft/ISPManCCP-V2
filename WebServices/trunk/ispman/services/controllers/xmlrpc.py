@@ -40,6 +40,11 @@ class XmlrpcController(XMLRPCController):
     getUserCount.signature = [['integer', 'string']]
     getUserCount.__doc__ = be.getUserCount.__doc__
 
+    def getVhostsCount(self, domain):
+        return be.getVhostsCount(domain)
+    getVhostsCount.signature = [['integer', 'string']]
+    getVhostsCount.__doc__ = be.getVhostsCount.__doc__
+
     def changeDomainPassword(self, domain, password):
         return be.changeDomainPassword(domain, password)
     changeDomainPassword.signature = [['boolean', 'string', 'string']]

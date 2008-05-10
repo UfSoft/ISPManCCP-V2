@@ -1,6 +1,7 @@
 """ISPMan UserMan WebServices"""
 
 from ispman.services.backend.base import *
+from ispman.services.backend.UserMan.WebUser import *
 
 def cantAddUsersToReplicaDomain(params):
     raise WontImplementError
